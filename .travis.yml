@@ -2,14 +2,14 @@ language: node_js
 node_js:
 - 9.11.1
 after_script:
-- scp -o -r StrictHostKeyChecking=no ./public server1:/root/code
-- scp -o -r StrictHostKeyChecking=no ./views server1:/root/code
+- scp -r StrictHostKeyChecking=no ./public server1:/root/code
+- scp -r StrictHostKeyChecking=no ./views server1:/root/code
 - scp -o -r StrictHostKeyChecking=no ./app.js server1:/root/code
 - scp -o -r StrictHostKeyChecking=no ./pm2.json server1:/root/code
 - scp -o -r StrictHostKeyChecking=no ./package.json server1:/root/code
 
-- scp -o -r StrictHostKeyChecking=no ./public server2:/root/code
-- scp -o -r StrictHostKeyChecking=no ./views server2:/root/code
+- scp -r StrictHostKeyChecking=no ./public server2:/root/code
+- scp -r StrictHostKeyChecking=no ./views server2:/root/code
 - scp -o -r StrictHostKeyChecking=no ./app.js server2:/root/code
 - scp -o -r StrictHostKeyChecking=no ./pm2.json server2:/root/code
 - scp -o -r StrictHostKeyChecking=no ./package.json server2:/root/code
