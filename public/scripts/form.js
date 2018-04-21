@@ -10,9 +10,17 @@ $(() => {
             })
             .then(res => {
                 console.log(res.data);
+                if (res.data.state) {
+                    console.log('更新成功');
+                    window.location.href = window.location.origin + '/';
+                }
             })
             .catch(error => {
                 console.log(error);
             });
+    });
+
+    $('#return').click(() => {
+        window.location.href = '/';
     });
 });

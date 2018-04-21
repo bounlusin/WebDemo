@@ -18,5 +18,8 @@
     "koa-static": "^4.0.2",
     "koa-swig": "^2.2.1",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "qs": "^6.5.1"
   }
 }

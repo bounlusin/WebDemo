@@ -6,6 +6,7 @@ const render = require('koa-swig');
 const koaBody = require('koa-body');
 const co = require('co');
 const axios = require('axios');
+const qs = require('qs');
 const app = new Koa();
 
 // 引入静态资源
@@ -24,47 +25,22 @@ app.context.render = co.wrap(render({
 }));
 
 // 路由
-const PHP_BASE_URL = 'http://192.168.2.137:8080/index.php?r=site/';
+const PHP_BASE_URL = 'http://47.104.241.201:2000/api/';
 const action_config = {
     'add': '添加',
     'edit': '保存'
 };
 app.use(router(_ => {
     _.get('/', async(ctx, next) => {
-        //console.log(_);
-        let isLogin = ctx.cookies.get('__login');
-        //console.log(ctx.query);
+        ctx.body = await ctx.render('index.html', {
+            username: 'koa'
+        });
 
-        if (isLogin) {
-            ctx.body = await ctx.render('index.html', {
-                username: ctx.query.username
-            });
-        } else {
-            ctx.body = await ctx.render('login.html');
-        }
-
-    });
-
-    _.post('/userLogin', (ctx, next) => {
-        //console.log(ctx.request.body);
-        let username = ctx.request.body.username;
-        let password = ctx.request.body.password;
-        if (password == '123456') {
-            ctx.body = {
-                state: true,
-                massage: 'success',
-            }
-        } else {
-            ctx.body = {
-                state: false,
-                massage: 'error',
-            }
-        }
     });
 
     _.get('/getList', async(ctx, next) => {
-        ctx.body = await axios.get(PHP_BASE_URL + 'getlist').then(res => {
-            console.log(res.data);
+        ctx.body = await axios.get(PHP_BASE_URL + 'books.php').then(res => {
+            //console.log(res.data);
             return res.data;
         });
     });
@@ -78,15 +54,23 @@ app.use(router(_ => {
     });
 
     _.post('/save', async(ctx, next) => {
-    	console.log('到了node路由');
-        ctx.body = await axios.post(PHP_BASE_URL + 'save').then(res => {
+        //console.log('到了node路由');
+        ctx.body = await axios.post(PHP_BASE_URL + 'book.php', qs.stringify(ctx.request.body)).then(res => {
             console.log(res.data);
             return res.data;
-        })
-    })
+        });
+    });
+
+    _.delete('/delete/:bookid', async(ctx, next) => {
+        //console.log("node删除" + ctx.params.bookid);
+        ctx.body = await axios.delete(PHP_BASE_URL + '/book.php', { bookId: ctx.params.bookid }).then(res => {
+            console.log(res.data);
+            return res.data;
+        });
+    });
 }));
 
 // 启动服务 监听3000端口
-app.listen(80, () => {
+app.listen(3000, () => {
     console.log('serve is started..');
 });
