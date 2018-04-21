@@ -1,0 +1,22 @@
+{
+  "name": "koa_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"travis ci success\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "co": "^4.6.0",
+    "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
+    "koa-session": "^5.8.1",
+    "koa-simple-router": "^0.2.0",
+    "koa-static": "^4.0.2",
+    "koa-swig": "^2.2.1",
+    "path": "^0.12.7"
+  }
+}

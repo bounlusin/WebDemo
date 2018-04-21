@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "9.11.1"
+
+after_script:
+  - scp -o StrictHostKeyChecking=no ./app.js server1:/root/code
+  - scp -o StrictHostKeyChecking=no ./app.js server2:/root/code
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_e2a8c5b37fd0_key -iv $encrypted_e2a8c5b37fd0_iv
+  -in bounlusin_rsa.enc -out bounlusin_rsa -d
+- mv bounlusin_rsa ~/.ssh -f
+- chmod 600 ~/.ssh/bounlusin_rsa
+- eval $(ssh-agent)
+- ssh-add ~/.ssh/bounlusin_rsa
+- cp .travis/ssh_config ~/.ssh/config
