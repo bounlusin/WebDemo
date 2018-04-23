@@ -73,5 +73,5 @@ app.use(router(_ => {
 
 // 启动服务 监听80端口
 app.listen(80, () => {
-    console.log('serve is started..');
+    console.log('server is started..');
 });
