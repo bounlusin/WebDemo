@@ -18,5 +18,7 @@ script:
 after_script:
 - scp -r StrictHostKeyChecking=no ./build server1:/root/code
 - scp -o StrictHostKeyChecking=no ./pm2.json server1:/root/code
+- scp -o StrictHostKeyChecking=no ./package.json server1:/root/code
 - scp -r StrictHostKeyChecking=no ./build server2:/root/code
 - scp -o StrictHostKeyChecking=no ./pm2.json server2:/root/code
+- scp -o StrictHostKeyChecking=no ./package.json server2:/root/code
