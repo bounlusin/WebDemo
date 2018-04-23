@@ -1,7 +1,0 @@
-{
-  "name": "koa-app",
-  "script": "./app.js",
-  "watch": true,
-  "instances": "max",
-  "exec_mode": "cluster"
-}

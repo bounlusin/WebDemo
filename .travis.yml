@@ -2,14 +2,6 @@ language: node_js
 node_js:
 - 9.11.1
 
-scrpit:
-- npm run test
-- npm run build
-
-after_script:
-- scp -r StrictHostKeyChecking=no ./build server1:/root/code
-- scp -r StrictHostKeyChecking=no ./build server2:/root/code
-
 before_install:
 - openssl aes-256-cbc -K $encrypted_8f15c31b9ddd_key -iv $encrypted_8f15c31b9ddd_iv
   -in bounlusin_rsa.enc -out bounlusin_rsa -d
@@ -18,3 +10,12 @@ before_install:
 - eval $(ssh-agent)
 - ssh-add ~/.ssh/bounlusin_rsa
 - cp .travis/ssh_config ~/.ssh/config
+
+
+script:
+- npm run test
+- npm run build
+
+after_script:
+- scp -r StrictHostKeyChecking=no ./build server1:/root/code
+- scp -r StrictHostKeyChecking=no ./build server2:/root/code
