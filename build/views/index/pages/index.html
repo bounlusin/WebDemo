@@ -1,0 +1,15 @@
+{% extends '../../layout.html' %}
+
+{% block head %}
+	<link href="./stylesheets/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<h1>Hello {{username}}</h1>
+	{% include '../../../widgets/button/button.html' %}
+	{% include '../../../widgets/table/table.html' %}
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="./scripts/index.bundle.js"></script>
+{% endblock %}

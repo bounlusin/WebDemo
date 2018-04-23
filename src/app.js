@@ -10,7 +10,7 @@ const qs = require('qs');
 const app = new Koa();
 
 // 引入静态资源
-app.use(serve(path.join(__dirname, './public')));
+app.use(serve(path.join(__dirname, './assets')));
 
 // 解析request body
 app.use(koaBody());
@@ -25,14 +25,14 @@ app.context.render = co.wrap(render({
 }));
 
 // 路由
-const PHP_BASE_URL = 'http://47.104.241.201:2000/api/';
+const PHP_BASE_URL = 'http://47.104.252.140:2000/api/';
 const action_config = {
     'add': '添加',
     'edit': '保存'
 };
 app.use(router(_ => {
     _.get('/', async(ctx, next) => {
-        ctx.body = await ctx.render('index.html', {
+        ctx.body = await ctx.render('./index/pages/index.html', {
             username: 'koa'
         });
 
@@ -47,8 +47,9 @@ app.use(router(_ => {
 
     _.get('/form', async(ctx, next) => {
         let action = ctx.query.action;
-        _action = action_config[action];
-        ctx.body = await ctx.render('form.html', {
+        //console.log(action, action_config);
+        let _action = action_config[action];
+        ctx.body = await ctx.render('./form/pages/form.html', {
             action: _action
         });
     });
@@ -62,7 +63,7 @@ app.use(router(_ => {
     });
 
     _.delete('/delete/:bookid', async(ctx, next) => {
-        //console.log("node删除" + ctx.params.bookid);
+        console.log("node删除" + ctx.params.bookid);
         ctx.body = await axios.delete(PHP_BASE_URL + '/book.php', { bookId: ctx.params.bookid }).then(res => {
             console.log(res.data);
             return res.data;
@@ -71,6 +72,6 @@ app.use(router(_ => {
 }));
 
 // 启动服务 监听3000端口
-app.listen(80, () => {
+app.listen(3000, () => {
     console.log('serve is started..');
 });
