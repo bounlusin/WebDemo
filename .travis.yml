@@ -1,6 +1,11 @@
 language: node_js
 node_js:
 - 9.11.1
+
+scrpit:
+- npm run test
+- npm run build
+
 after_script:
 - scp -r StrictHostKeyChecking=no ./build server1:/root/code
 - scp -r StrictHostKeyChecking=no ./build server2:/root/code
