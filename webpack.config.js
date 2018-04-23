@@ -57,9 +57,6 @@ module.exports = {
                 to: path.join(__dirname, '/build/widgets/'),
                 ignore: ['*.js', '*.css']
             }, {
-                from: path.join(__dirname, './pm2.json'),
-                to: path.join(__dirname, './build/pm2.json')
-            }, {
                 from: path.join(__dirname, './package.json'),
                 to: path.join(__dirname, './build/package.json')
             }
