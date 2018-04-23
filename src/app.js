@@ -71,7 +71,7 @@ app.use(router(_ => {
     });
 }));
 
-// 启动服务 监听3000端口
-app.listen(3000, () => {
+// 启动服务 监听80端口
+app.listen(80, () => {
     console.log('serve is started..');
 });
