@@ -16,7 +16,7 @@ class Return {
 
     bind() {
         this.btn.click(() => {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'http://bounlusin.xyz/';
         });
     }
 }

@@ -18,7 +18,7 @@ class button {
 
     bind() {
         this.button.click(() => {
-            window.location.href = '/form?action=add';
+            window.location.href = 'http://bounlusin.xyz/form?action=add';
         });
     }
 }

@@ -25,7 +25,7 @@ app.context.render = co.wrap(render({
 }));
 
 // 路由
-const PHP_BASE_URL = 'http://47.104.252.140:2000/api/';
+const PHP_BASE_URL = 'http://bounlusin.xyz:2000/api/';
 const action_config = {
     'add': '添加',
     'edit': '保存'

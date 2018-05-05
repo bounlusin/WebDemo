@@ -1,7 +1,6 @@
 User root
 Host server1
-HostName 39.105.63.228
-StrictHostKeyChecking no
+HostName 39.106.12.1
 IdentityFile ~/.ssh/bounlusin_rsa
 IdentitiesOnly yes
 Protocol 2
@@ -12,7 +11,7 @@ LogLevel INFO
 
 User root
 Host server2
-HostName 39.105.54.9
+HostName 59.110.152.78
 StrictHostKeyChecking no
 IdentityFile ~/.ssh/bounlusin_rsa
 IdentitiesOnly yes
