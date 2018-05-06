@@ -1,4 +1,3 @@
-import $ from 'jquery';
 const buttoncss = require('./button.css');
 
 class button {
@@ -8,8 +7,8 @@ class button {
     }
 
     init() {
-    	this.render();
-    	this.bind();
+        this.render();
+        this.bind();
     }
 
     render() {
@@ -17,9 +16,7 @@ class button {
     }
 
     bind() {
-        this.button.click(() => {
-            window.location.href = 'http://bounlusin.xyz/form?action=add';
-        });
+        $(document).pjax('a', '#container');
     }
 }
 

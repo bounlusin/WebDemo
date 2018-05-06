@@ -8,6 +8,9 @@ const co = require('co');
 const axios = require('axios');
 const qs = require('qs');
 const app = new Koa();
+const swig = require('swig');
+const cheerio = require('cheerio');
+const fs = require("fs");
 
 // 引入静态资源
 app.use(serve(path.join(__dirname, './assets')));
@@ -35,7 +38,23 @@ app.use(router(_ => {
         ctx.body = await ctx.render('./index/pages/index.html', {
             username: 'koa'
         });
+    });
 
+    _.get('/index', async(ctx, next) => {
+        if (!ctx.request.header['x-pjax']) {
+            //console.log('get');
+            ctx.body = await ctx.render('./index/pages/index.html', {
+                username: 'koa'
+            });
+        } else {
+            //console.log('pjax');
+            //console.log(ctx.request.header);
+            let selector = ctx.request.header['x-pjax-container'];
+            let html = get_html('./index/pages/index.html', selector, {
+                username: 'koa'
+            });
+            ctx.body = html;
+        }
     });
 
     _.get('/getList', async(ctx, next) => {
@@ -47,11 +66,21 @@ app.use(router(_ => {
 
     _.get('/form', async(ctx, next) => {
         let action = ctx.query.action;
-        //console.log(action, action_config);
         let _action = action_config[action];
-        ctx.body = await ctx.render('./form/pages/form.html', {
-            action: _action
-        });
+        if (!ctx.request.header['x-pjax']) {
+            //console.log('get');
+            ctx.body = await ctx.render('./form/pages/form.html', {
+                action: _action
+            });
+        } else {
+            // console.log('pjax');
+            // console.log(ctx.request.header);
+            let selector = ctx.request.header['x-pjax-container'];
+            let html = get_html('./form/pages/form.html', selector, {
+                action: _action
+            })
+            ctx.body = html;
+        }
     });
 
     _.post('/save', async(ctx, next) => {
@@ -71,7 +100,51 @@ app.use(router(_ => {
     });
 }));
 
+function get_html(_path, selector, options) {
+    let template = swig.compileFile(path.join(__dirname, './views', _path));
+    let rendered = template(options);
+
+    let $ = cheerio.load(rendered);
+    console.log(rendered);
+    let scripts = rendered.match(/<script type="text\/javascript">[\s\S]+?<\/script>/g);
+    let styles = rendered.match(/<link href=[\s\S]+? rel="stylesheet">/g);
+    let html = $(selector).html();
+    scripts.map(script => {
+        html += script;
+    })
+    //console.log(rendered);
+    // styles.map(style => {
+    //     let first = style.indexOf('href=') + 6;
+    //     let src = style.substring(first);
+    //     let last = src.indexOf('\"');
+    //     src = src.substring(0, last);
+    //     src = path.join(__dirname, './assets', src);
+    //     let data = fs.readFileSync(src, "utf-8");
+    //     html = html + `<style type="text/css">${data}</style>`;
+    // });
+    // scripts.map(script => {
+    //     let first = script.indexOf('src=') + 5;
+    //     let src = script.substring(first);
+    //     let last = src.indexOf('\"');
+    //     // src = src.substring(0, last);
+    //     // let _path = path.join(__dirname, './assets', src);
+    //     // src = src.substring(src.lastIndexof('/'));
+    //     // first = src.indexOf('_');
+    //     // last = src.indexOf('.');
+    //     // const asset = {};
+    //     // asset.name = src.substring(0, first);
+    //     // asset.md5 = src.substring(first + 1, last);
+    //     // asset.path = _path;
+    //     // console.log(asset);
+    //     //let data = fs.readFileSync(path.join(__dirname, './assets', src), "utf-8");
+    //     //html = html + `<script type="text/javascript">cacheManager.get_asset(${asset})</script>`;
+    // });
+
+    console.log(html);
+    return html;
+}
+
 // 启动服务 监听80端口
-app.listen(80, () => {
+app.listen(8000, () => {
     console.log('server is started..');
 });

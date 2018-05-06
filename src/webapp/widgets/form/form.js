@@ -1,5 +1,4 @@
 import axios from 'axios';
-import $ from 'jquery';
 
 class form {
     constructor() {
@@ -16,10 +15,11 @@ class form {
     }
 
     bind() {
-        this.save.click(() => {
+        this.save.click((e) => {
             let title = $('#title').val();
             let describe = $('#describe').val();
             let content = $('#content').val();
+            e.preventDefault();
             axios.post('/save', {
                     title: title,
                     describe: describe,
@@ -27,6 +27,10 @@ class form {
                 })
                 .then(res => {
                     console.log(res.data);
+                    if (res.data.state){
+                        console.log('保存成功');
+                        $('#return').click();
+                    }
                 })
                 .catch(error => {
                     console.log(error);

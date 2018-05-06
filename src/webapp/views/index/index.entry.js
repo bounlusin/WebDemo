@@ -1,5 +1,3 @@
-import axios from 'axios';
-import $ from 'jquery';
 import Button from '../../widgets/button/button.js';
 import Table from '../../widgets/table/table.js';
 

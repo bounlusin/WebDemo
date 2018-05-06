@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInsertScriptPlugin = require('./lib/html-insert-script-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 const VIEWS_PATH = './src/webapp/views/';
 
@@ -14,7 +15,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, './build/assets/'),
         publicPath: './',
-        filename: 'scripts/[name].bundle.js'
+        filename: 'scripts/[name].[hash:8].js'
     },
     module: {
         rules: [{
@@ -26,8 +27,9 @@ module.exports = {
         }]
     },
     plugins: [
+        new UglifyWebpackPlugin(),
         new ExtractTextPlugin({
-            filename: 'stylesheets/style.css',
+            filename: 'stylesheets/style.[hash:8].css',
         }),
 
         new HtmlWebpackPlugin({
@@ -56,7 +58,13 @@ module.exports = {
                 from: path.join(__dirname, '/src/webapp/widgets/'),
                 to: path.join(__dirname, '/build/widgets/'),
                 ignore: ['*.js', '*.css']
-            }
+            }, {
+                from: path.join(__dirname, VIEWS_PATH, 'common.js'),
+                to: path.join(__dirname, '/build/assets/scripts/common.js'),
+            }, {
+                from: path.join(__dirname, VIEWS_PATH, 'index.manifest'),
+                to: path.join(__dirname, '/build/assets/index.manifest'),
+            },
         ]),
     ]
 }

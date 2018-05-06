@@ -1,17 +1,32 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" manifest="index.manifest">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="x-dns-prefetch-control" content="off">
     <title>Demo</title>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="dns-prefetch" href="http://bounlusin.xyz/">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com/">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://cdn.bootcss.com/localforage/1.7.1/localforage.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.js"></script>
+    <script src="./scripts/common.js"></script>
     {% block head %}{% endblock %}
 </head>
 
 <body>
-    <h1> server </h1>
-    {% block content %}{% endblock %}
-    {% block script %}{% endblock %}
+    <div id="container">
+        <h1> server </h1> {% block content %}{% endblock %}
+    </div>
+    {% block asset %}{% endblock %} {% block script %}{% endblock %}
+    <script type="text/javascript">
+    console.log(cacheManager);
+    console.log(assets);
+    assets.map(asset => {
+        cacheManager.get_asset(asset);
+    });
+    </script>
 </body>
-    
+
 </html>

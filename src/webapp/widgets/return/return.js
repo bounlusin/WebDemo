@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 class Return {
     constructor() {
         this.btn = $('#return');
@@ -15,9 +13,7 @@ class Return {
     }
 
     bind() {
-        this.btn.click(() => {
-            window.location.href = 'http://bounlusin.xyz/';
-        });
+        $(document).pjax('a', '#container');
     }
 }
 
